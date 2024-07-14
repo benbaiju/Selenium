@@ -30,14 +30,17 @@ try:
         cookies_count = driver.find_element(By.ID, "cookies").text.split(" ")[0]
         cookies_count = int(cookies_count.replace(",", ""))
 
-        for i in range(4):
-            product_price_element = driver.find_element(By.ID, "productPrice" + str(i))
-            product_price = int(product_price_element.text.replace(",", "").split(" ")[0])
+        for i in range(20):  
+            try:
+                product_price_element = driver.find_element(By.ID, f"productPrice{i}")
+                product_price = int(product_price_element.text.replace(",", "").split(" ")[0])
 
-            if cookies_count >= product_price:
-                product = driver.find_element(By.ID, "product" + str(i))
-                product.click()
-                break
+                if cookies_count >= product_price:
+                    product_element = driver.find_element(By.ID, f"product{i}")
+                    product_element.click()
+                    break
+            except Exception as e:
+                print(f"Error processing product {i}: {e}")
 
         time.sleep(1)
 
